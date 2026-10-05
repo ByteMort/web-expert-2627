@@ -7,9 +7,9 @@ import {
     fromRAMToYML
 } from "./services/route_service";
 import path from "node:path";
-import { error } from "node:console";
 
-const app = express();
+
+export const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(ROOT_DIR, 'public')));

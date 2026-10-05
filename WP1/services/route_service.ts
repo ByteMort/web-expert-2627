@@ -1,6 +1,7 @@
 import yaml from 'yaml';
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
 const CONFIG = process.argv.slice(2)[0] || 'config.yml';
 let config: any;
@@ -53,7 +54,7 @@ export function getRoute(route: string, embed?: string): any[]{
 
 export function getRouteById(route: string, id: string, embed?: string){
     const data = config[route] || [];
-    const record = data.find((item:any) => item.id == id);
+    const record = data.find((item:any) => String(item.id) === id);
 
     if (!record) {return record}
 
@@ -66,7 +67,10 @@ export function getRouteById(route: string, id: string, embed?: string){
 
 export function addDataToRoute(route: string, body: any): [boolean, string]{
     try{
-        config[route].push(body);
+        config[route].push({
+            id: body.id || crypto.randomUUID(),
+            ...body
+        });
 
         // const yamlStr = yaml.stringify(config);
         // fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
@@ -82,7 +86,7 @@ export function deleteDataFromRoute(route: string, id: string): [boolean, string
     try{
         const initialLength = config[route].length;
 
-        config[route] = config[route].filter((item:any) => item.id != id);
+        config[route] = config[route].filter((item:any) => String(item.id) !== id);
 
         if(config[route].length === initialLength){
             return [false, `There is no data with id: ${id}`];
@@ -100,14 +104,14 @@ export function deleteDataFromRoute(route: string, id: string): [boolean, string
 
 export function updateDataFromRoute(route: string, id: string, body: any): [boolean, string]{
     try{
-        const exists = config[route].some((item:any) => item.id == id);
+        const exists = config[route].some((item:any) => String(item.id) === id);
         
         if(!exists){
             return [false, `There is no data with id: ${id}`];
         }
 
         config[route] = config[route].map((item:any) => {
-            return item.id == id ? {id: item.id, ...body} : item
+            return String(item.id) === id ? {id: item.id, ...body} : item
         });
 
         // const yamlStr = yaml.stringify(config);

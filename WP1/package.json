@@ -4,7 +4,8 @@
   "description": "Web Expert 2026-2027 WP1",
   "scripts": {
     "build": "tsc app.ts",
-    "dev": "tsx watch app.ts"
+    "dev": "tsx watch app.ts",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "bytemort",
@@ -19,7 +20,10 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.4",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.3.1",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
   }
 }
