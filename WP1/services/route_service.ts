@@ -68,8 +68,8 @@ export function addDataToRoute(route: string, body: any): [boolean, string]{
     try{
         config[route].push(body);
 
-        const yamlStr = yaml.stringify(config);
-        fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
+        // const yamlStr = yaml.stringify(config);
+        // fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
 
         return [true, ""];
     }catch(err){
@@ -88,8 +88,8 @@ export function deleteDataFromRoute(route: string, id: string): [boolean, string
             return [false, `There is no data with id: ${id}`];
         }
 
-        const yamlStr = yaml.stringify(config);
-        fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
+        // const yamlStr = yaml.stringify(config);
+        // fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
 
         return [true, ""];
     }catch(err){
@@ -110,12 +110,22 @@ export function updateDataFromRoute(route: string, id: string, body: any): [bool
             return item.id == id ? {id: item.id, ...body} : item
         });
 
-        const yamlStr = yaml.stringify(config);
-        fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
+        // const yamlStr = yaml.stringify(config);
+        // fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
 
         return [true, ""];
     }catch(err){
         console.error(err);
         return [false, `${err}`];
+    }
+}
+
+export function fromRAMToYML(){
+    console.log("Saving to YAML...");
+    try{
+        const yamlStr = yaml.stringify(config);
+        fs.writeFileSync(path.join(ROOT_DIR, CONFIG), yamlStr, 'utf8');
+    }catch(err){
+        console.error(err);
     }
 }

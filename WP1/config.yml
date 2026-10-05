@@ -12,8 +12,6 @@ persons:
     name: Sofie
   - id: 3
     name: Tim
-  - id: 4
-    name: Creg
 pets:
   - id: 1
     type: dog

@@ -3,7 +3,8 @@ import 'dotenv/config';
 import { 
     ROOT_DIR, config, getRoute, 
     getRouteById, addDataToRoute,
-    deleteDataFromRoute, updateDataFromRoute
+    deleteDataFromRoute, updateDataFromRoute,
+    fromRAMToYML
 } from "./services/route_service";
 import path from "node:path";
 import { error } from "node:console";
@@ -112,6 +113,7 @@ const server = app.listen(PORT, () => {
 
 const shutdown = () => {
     console.log("Shutting down...");
+    fromRAMToYML();
     server.close(() => process.exit(0));
 };
 
