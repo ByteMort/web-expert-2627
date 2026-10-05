@@ -1,7 +1,12 @@
 import express, { NextFunction, Request, Response } from "express";
 import 'dotenv/config';
-import { ROOT_DIR, config, getRoute, getRouteById } from "./services/route_service";
+import { 
+    ROOT_DIR, config, getRoute, 
+    getRouteById, addDataToRoute,
+    deleteDataFromRoute, updateDataFromRoute
+} from "./services/route_service";
 import path from "node:path";
+import { error } from "node:console";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -49,6 +54,54 @@ app.get('/:route/:id', checkRoute, (req: Request, res: Response) => {
     return res.json(record);
 });
 
+app.post('/:route', checkRoute, (req: Request, res: Response) => {
+    const route = req.params.route as string;
+    const body = req.body;
+    if(!body){
+        return res.status(400).json({
+            error: 'Request body cannot be empty'
+        });
+    }
+    const result = addDataToRoute(route, body);
+    if(!result[0]){
+        return res.status(500).json({
+            error: `Something went wrong: ${result[1]}`
+        });
+    }
+    return res.redirect(`/${route}`);
+});
+
+app.put('/:route/:id', checkRoute, (req: Request, res: Response) => {
+    const route = req.params.route as string;
+    const id = req.params.id as string;
+    const body = req.body;
+
+    if(!body){
+        return res.status(400).json({
+            error: 'Request body cannot be empty'
+        });
+    }
+
+    const result = updateDataFromRoute(route, id, body);
+    if(!result[0]){
+        return res.status(500).json({
+            error: `Something went wrong: ${result[1]}`
+        });
+    }
+    return res.redirect(`/${route}`);
+});
+
+app.delete('/:route/:id', checkRoute, (req: Request, res: Response) => {
+    const route = req.params.route as string;
+    const id = req.params.id as string;
+    const result = deleteDataFromRoute(route, id);
+    if(!result[0]){
+        return res.status(400).json({
+            error: `Something went wrong: ${result[1]}`
+        });
+    }
+    return res.redirect(`/${route}`);
+});
 
 const server = app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
