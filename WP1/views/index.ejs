@@ -1,0 +1,19 @@
+<%- include('./partials/header') %>
+
+<div class="main">
+    <h2><b>JSON Server</b></h2>
+
+    <div class="routes">
+        <ul>
+            <% config.routes.forEach((route) => { %>
+                <li>
+                    <a href="/<%= route %>">
+                        /<%= route %>
+                    </a> - <%= config[route].length %> items
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</div>
+
+<%- include('./partials/footer') %>
