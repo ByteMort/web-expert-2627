@@ -58,3 +58,4 @@ This project is structured as a custom mock server, modeled conceptually similar
 | **Sorting** | `?sort=field_name&order=asc` / `desc` | Sorts the returned collection. If `order` is omitted, it defaults to `asc`. |
 | **Limiting** | `?limit=number` | Limits the maximum number of items returned in the response. |
 | **Offset** | `?offset=number` | Skips a specified number of items before returning the results. |
+| **Search** | `?search=valie` | Filters the dataset to return items where any plain field. (Doesn't work with relationships!) |
