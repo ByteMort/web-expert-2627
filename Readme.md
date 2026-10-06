@@ -56,3 +56,4 @@ This project is structured as a custom mock server, modeled conceptually similar
 | Feature | Query Parameters | Description |
 | :--- | :--- | :--- |
 | **Sorting** | `?sort=field_name&order=asc` / `desc` | Sorts the returned collection. If `order` is omitted, it defaults to `asc`. |
+| **Limiting** | `?limit=number` | Limits the maximum number of items returned in the response. |
