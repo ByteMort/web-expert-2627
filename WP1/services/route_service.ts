@@ -137,6 +137,11 @@ export function updateDataFromRoute(route: string, id: string, body: any): [bool
     }
 }
 
+// Extra Features
+export function getDataWithSort(sort: string, order: string): any[]{
+    return [];
+}
+
 export function fromRAMToYML(){
     console.log("Saving to YAML...");
     try{

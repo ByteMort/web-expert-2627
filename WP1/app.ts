@@ -4,7 +4,7 @@ import {
     ROOT_DIR, config, getRoute, 
     getRouteById, addDataToRoute,
     deleteDataFromRoute, updateDataFromRoute,
-    fromRAMToYML
+    fromRAMToYML, getDataWithSort
 } from "./services/route_service";
 import path from "node:path";
 
@@ -38,7 +38,12 @@ app.get('/', (req: Request, res: Response) => {
 app.get('/:route', checkRoute, (req: Request, res: Response) => {
     const route = req.params.route as string;
     const embed = req.query.embed as string;
-    const data = getRoute(route, embed);
+    const sort = req.query.sort as string;
+    const order = req.query.order as string || "asc";
+    let  data = getRoute(route, embed);
+    
+    data = (data.length > 0 && sort) ? getDataWithSort(sort, order) : data;
+
     return res.json(data);
 });
 
