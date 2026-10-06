@@ -104,6 +104,12 @@ app.delete('/:route/:id', checkRoute, (req: Request, res: Response) => {
     return res.redirect(`/${route}`);
 });
 
+// sort field
+// limit
+// filter field
+// offset
+// search
+
 const server = app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 }).on('error', (err) => {

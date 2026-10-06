@@ -18,35 +18,47 @@ try{
 
 export {config};
 
-function getEmbeddedDataOwners(data: any){
-    const persons = config["persons"];
-    if (Array.isArray(data)){
-        const embedded_data = data.map((p:any) => {
-            if(!p.ownerIds){
-                return p;
-            }
-            let matchedOwners = persons.filter((person:any) => {
-                return p.ownerIds.includes(person.id);
+function getEmbeddedDataOwners(data: any, embed: string, routeRelationships: any){
+    const singularEmbed = embed.endsWith('s') ? embed.slice(0, -1) : embed;
+    const relation = routeRelationships.find((rel:any) => {
+        return rel.foreignKey.toLowerCase().startsWith(singularEmbed.toLowerCase())
+    });
+    
+    if(!relation) return data;
+
+    const targetData = config[relation.relatedRoute] || [];
+    const foreignKey = relation.foreignKey;
+
+    if(Array.isArray(data)){
+        return data.map((item:any) => {
+            if(!item[foreignKey]) return item;
+            let matchedItems = targetData.filter((tItem:any) => {
+                return item[foreignKey].includes(tItem.id);
             });
+
             return {
-                ...p,
-                owners: matchedOwners 
+                ...item, [embed]: matchedItems
             }
         });
-        return embedded_data;
-    }else{
-        let matchedOwners = persons.filter((person:any) => {
-            return data.ownerIds.includes(person.id);
-        });
-        return {...data, owners: matchedOwners};
     }
+
+    if(!data[foreignKey]) return data;
+    let matchedItems = targetData.filter((tItem:any) => {
+        return data[foreignKey].includes(tItem.id);
+    });
+
+    return {
+        ...data,
+        [embed]: matchedItems
+    };
 }
 
 export function getRoute(route: string, embed?: string): any[]{
     const data = config[route] ||  [];
+    const routeRelationships = config.relationships?.[route] || [];
 
-    if(route === 'pets' && embed === 'owners'){
-        return getEmbeddedDataOwners(data);
+    if(embed && routeRelationships.length > 0){
+        return getEmbeddedDataOwners(data, embed, routeRelationships);
     }
 
     return data;
@@ -55,11 +67,12 @@ export function getRoute(route: string, embed?: string): any[]{
 export function getRouteById(route: string, id: string, embed?: string){
     const data = config[route] || [];
     const record = data.find((item:any) => String(item.id) === id);
+    const routeRelationships = config.relationships?.[route] || [];
 
     if (!record) {return record}
 
-    if(route === 'pets' && embed === 'owners'){
-        return getEmbeddedDataOwners(record);
+    if(embed && routeRelationships.length > 0){
+        return getEmbeddedDataOwners(record, embed, routeRelationships);
     }
 
     return record;
