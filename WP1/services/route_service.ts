@@ -138,8 +138,40 @@ export function updateDataFromRoute(route: string, id: string, body: any): [bool
 }
 
 // Extra Features
-export function getDataWithSort(sort: string, order: string): any[]{
-    return [];
+export function getDataWithSort(data: any[], sort: string, order: string): any[]{
+    return [...data].sort((a:any, b:any) => {
+        let valA = a[sort];
+        let valB = b[sort];
+
+        if(valA === undefined) return 1;
+        if(valB === undefined) return -1;
+
+        if(typeof valA === 'string' && typeof valB === 'string'){
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+
+        let comparison = 0;
+        if(valA > valB){
+            comparison = 1;
+        }else if (valA < valB){
+            comparison = -1;
+        }
+
+        return order === "desc" ? -comparison : comparison;
+    });
+}
+
+export function searchData(data: any[], search: string): any[]{
+    const searchItem = search.toLowerCase();
+    return data.filter((item:any) => {
+        return Object.values(item).some((val:any) => {
+            if(val !== null && val !== undefined && typeof val !== 'object'){
+                return String(val).toLowerCase().includes(searchItem);
+            }
+            return false;
+        });
+    });
 }
 
 export function fromRAMToYML(){
