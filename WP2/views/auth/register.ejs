@@ -1,0 +1,38 @@
+<%- include('../partials/header', { css: '/auth/register.css' }) %>
+
+<div class="register-container">
+    <h1>Register</h1>
+    <form action="/register" method="post" class="register-form">
+        
+        <% if(locals.success) { %>
+            <p class="success-msg"><%= success %></p>
+
+            <script>
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 2000);
+            </script>
+        <% } else if (locals.errors && errors.length > 0) { %>
+            <% errors.forEach(err => { %>
+                <p class="error-msg"><%= err %></p>
+            <% }) %>
+        <% } %>
+
+
+        <div class="register-field">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username">
+        </div> 
+
+        <div class="register-field">
+            <label for="pass">Password</label>
+            <input type="password" id="pass" name="password">
+        </div>
+
+        <button type="submit">Register</button>
+
+        <a href="/login">Do you already have an account?</a>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

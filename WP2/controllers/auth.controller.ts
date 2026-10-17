@@ -1,0 +1,70 @@
+import { type NextFunction, type Request, type Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
+import { addUser, logUser } from '../services/auth.servce.js';
+import { parseErrorMessages } from '../middlewares/error.middleware.js';
+
+export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const body = req.body;
+
+        if(!body.username) {throw new Error("Username is required.")}
+        if(!body.password) {throw new Error("Password is required.")}
+        
+        const added_user = await addUser(body);   
+
+        if(req.accepts("html")){
+            return res.render('auth/register', {
+                success: "User successfully created!"
+            });
+        }
+        return res.status(StatusCodes.CREATED).json(added_user);
+        
+    }catch(err: any){
+        if (err.name === "MongoNetworkError" || err.name === "MongoServerSelectionError") {
+            return next(err);
+        }
+
+        const errors = parseErrorMessages(err);
+        if (req.accepts("html")) {
+            return res.render('auth/register', { errors });
+        }
+        return res.status(StatusCodes.BAD_REQUEST).json({ errors });
+    }
+};
+
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const body = req.body;
+
+        if(!body.username) {throw new Error("Username is required.")}
+        if(!body.password) {throw new Error("Password is required.")}
+
+        const { user, token } = await logUser(body);
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 3600000
+        });
+
+        if(req.accepts('html')){
+            return res.render('auth/login', {
+                success: "Login Successfull!"
+            });
+        }
+        return res.status(StatusCodes.OK).json({
+            message: "Login Successfull!",
+            user: { id: user._id, username: user.username, role: user.role}
+        });
+
+    }catch(err: any){
+        if(err.name == "MongoNetworkError" ||  err.name === "MongoServerSelectionError"){
+            return next(err);
+        }
+
+        const errors = parseErrorMessages(err);
+        if(req.accepts("html")){
+            return res.render('auth/login', {errors});
+        }
+        return res.status(StatusCodes.BAD_REQUEST).json({errors});
+    }
+};
