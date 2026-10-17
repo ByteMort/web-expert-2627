@@ -1,0 +1,34 @@
+.user-container{
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid rgb(16, 159, 236);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.errors{
+    width: 100%;
+    height: 100%;
+    color: rgb(103, 0, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+.users{
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgb(16, 159, 236);
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    justify-content: space-between;
+    padding: 10px;
+}

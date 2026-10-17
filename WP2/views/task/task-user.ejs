@@ -1,0 +1,51 @@
+<%- include('../partials/header', {css: '/task/task.css'}) %>
+
+<div class="tasks-container">
+    <h2>Add Task to User</h2>
+
+    <% if (locals.success) { %>
+        <div class="success-box">
+            <p><%= success %></p>
+        </div>
+    <% } %>
+
+    <% if(locals.errors){ %>
+        <div class="errors">
+            <% errors.forEach(e => { %>
+                <p><%= e %></p>
+            <% }) %>
+        </div>
+    <% }else{ %>
+    
+    <form action="/task-user" method="post">
+        <div class="form-group">
+            <label for="taskId">Select Task:</label>
+            <select name="task_id" id="taskId" required>
+                <option value="" disabled selected>-- Choose a Task --</option>
+                <% if (locals.tasks && tasks.length > 0) { %>
+                    <% tasks.forEach(task => { %>
+                        <option value="<%= task._id %>"><%= task.title %></option>
+                    <% }) %>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="userId">Select User:</label>
+            <select name="user_id" id="userId" required>
+                <option value="" disabled selected>-- Choose a User --</option>
+                <% if (locals.users && users.length > 0) { %>
+                    <% users.forEach(u => { %>
+                        <option value="<%= u._id %>"><%= u.username %></option>
+                    <% }) %>
+                <% } %>
+            </select>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+
+    <% } %>
+        
+</div>
+
+<%- include('../partials/footer') %>

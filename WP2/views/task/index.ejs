@@ -1,0 +1,27 @@
+<%- include('../partials/header', {css: '/task/task.css'}) %>
+
+<div class="tasks-container">
+    <h2><%= title %></h2>
+
+    <% if(locals.errors){ %>
+        <div class="errors">
+            <% errors.forEach(e => { %>
+                <p><%= e %></p>
+            <% }) %>
+        </div>
+    <% }else{ %>
+    
+    <% if(locals.tasks && tasks.length > 0){ %>
+        <% tasks.forEach(t => { %>
+            <div class="tasks">
+                <p><%= t.title %></p>
+                <p><%= t.completed %></p>
+            </div>
+        <% }) %>
+    <% }else{ %>
+        <p>You don't have task yet.</p>
+    <% }} %>
+
+</div>
+
+<%- include('../partials/footer') %>

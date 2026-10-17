@@ -1,0 +1,29 @@
+<%- include('../partials/header', {css: '/user/user.css'}) %>
+
+<div class="user-container">
+    <h2>Users</h2>
+
+    <% if(locals.errors){ %>
+        <div class="errors">
+            <% errors.forEach(e => { %>
+                <p><%= e %></p>
+            <% }) %>
+        </div>
+    <% }else{ %>
+
+    <% if(locals.users && users.length > 0){ %>
+        <% users.forEach(u => { %>
+            <div class="users">
+                <p><%= u.username %></p>
+                <% u.role.forEach(r => { %>
+                    <span><%= r %></span>
+                <% }) %>
+            </div>
+        <% }) %>
+    <% }else{ %>
+        <p>There is no user yet!</p>
+    <% }} %>
+
+</div>
+
+<%- include('../partials/footer') %>

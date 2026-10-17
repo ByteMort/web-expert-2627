@@ -1,5 +1,31 @@
 <%- include('partials/header') %>
 
-<h3>Home Page!</h3>
+<div class="me-container">
+    <div class="me-title">
+        <h3>Your Profile</h3>
+    </div>
+    <div class="me-field">
+        <p>Username</p>
+        <p><%= profile.username %></p>
+    </div>
+    <div class="me-field">
+        <p>Role</p>
+        <% profile.roles.forEach(r => { %>
+            <span><%= r %></span>
+        <% }) %>
+    </div>
+    <hr>
+    <a class="logout" href="/logout">Logout</a>
+</div>
+
+<div class="links">
+    <% if(profile.roles.includes('admin')){ %>
+        <a href="/users">Users</a>
+        <a href="/tasks">Tasks</a>
+        <a href="/task-user">Add Task to User</a>
+    <% }else{ %>
+        <a href="/tasks">My Tasks</a>
+    <% } %>
+</div>
 
 <%- include('partials/footer') %>

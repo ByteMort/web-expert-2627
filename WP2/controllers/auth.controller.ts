@@ -1,6 +1,6 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { addUser, logUser } from '../services/auth.servce.js';
+import { addUser, logUser } from '../services/auth.service.js';
 import { parseErrorMessages } from '../middlewares/error.middleware.js';
 
 export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -68,3 +68,13 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         return res.status(StatusCodes.BAD_REQUEST).json({errors});
     }
 };
+
+export const logout = (req: Request, res: Response) => {
+    res.clearCookie('token');
+    if(req.accepts("html")){
+        return res.redirect("/");
+    }
+    return res.status(StatusCodes.OK).json({
+        message: "Logout Successull"
+    });
+}

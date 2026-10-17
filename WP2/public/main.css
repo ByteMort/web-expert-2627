@@ -10,4 +10,55 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 50px;
+}
+
+.me-container{
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border: 2px solid rgb(16, 159, 236);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+    border-radius: 12px;
+}
+.me-field{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.me-title{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logout{
+    font-size: large;
+    color: rgb(115, 2, 2);
+}
+.logout:hover{
+    color: whitesmoke;
+    background-color: rgb(115, 2, 2);
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
 }
