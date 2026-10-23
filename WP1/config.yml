@@ -24,14 +24,3 @@ pets:
     ownerIds:
       - 1
       - 2
-  - id: 3
-    type: dog
-    name: dog3
-    ownerIds:
-      - 2
-  - id: 4
-    type: cat
-    name: cat3
-    ownerIds:
-      - 1
-      - 2

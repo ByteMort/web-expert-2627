@@ -73,7 +73,7 @@ const PETS_WITH_OWNERS = [
   }
 ];
 
-describe("API Get Tests", () => {
+describe("API Get Tests",  () => {
     it("Get /persons - should return status 200 and persons", async () => {
         const response = await request(app).get('/persons');
 
