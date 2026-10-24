@@ -10,13 +10,6 @@ mainRouter.use(auth_router);
 
 mainRouter.use(authenticateToken);
 
-mainRouter.get('/', (req, res) => {
-    res.render('index', {
-        title: "Home Page",
-        profile: {username: req.user?.username, roles: req.user?.role}
-    });
-})
-
 mainRouter.use(task_router);
 mainRouter.use(user_router);
 

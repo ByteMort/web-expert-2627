@@ -14,11 +14,17 @@ const MONGO_URI:string = process.env.MONGO_URI || "";
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(express.static(path.join(import.meta.dirname, 'public')));
-app.set('views', path.join(import.meta.dirname, 'views'));
-app.set('view engine', 'ejs');
 
-app.use(mainRouter);
+app.use('/api', mainRouter);
+
+// app.use(express.static(path.join(import.meta.dirname, 'public')));
+// app.set('views', path.join(import.meta.dirname, 'views'));
+// app.set('view engine', 'ejs');
+
+app.use('/axios', express.static(path.join(import.meta.dirname, 'node_modules/axios/dist')));
+app.use(express.static(path.join(import.meta.dirname, 'frontend')));
+
+
 app.use(globalErrorHandler);
 
 let server: http.Server;

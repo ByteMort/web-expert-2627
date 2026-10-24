@@ -1,0 +1,32 @@
+.task-list {
+    margin-top: 1.5rem;
+}
+
+.task-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.btn-edit {
+    background-color: #f39c12;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+}
+
+textarea {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical;
+}
+

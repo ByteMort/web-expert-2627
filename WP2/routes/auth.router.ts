@@ -3,19 +3,7 @@ import { registerUser, loginUser, logout } from "../controllers/auth.controller.
 
 const router = express.Router();
 
-router.get('/register', (req, res) => {
-    return res.render('auth/register', {
-        title: "Register Page"
-    });
-});
-
 router.post('/register', registerUser);
-
-router.get('/login', (req, res) => {
-    return res.render('auth/login', {
-        title: "Login Page"
-    });
-});
 
 router.post('/login', loginUser);
 

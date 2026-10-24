@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/register.css">
+    <script src="/axios/axios.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+            <a href="user_index.html">Users</a>
+            <a href="task_index.html">Tasks</a>
+            <a href="task-user.html">Assign Task</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <h2>Create an Account</h2>
+
+            <div class="alert-message" id="alertMessage"></div>
+
+            <form id="registerForm">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="enter username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="enter password" required>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 All Rights Reserved.</p>
+    </footer>
+    <script src="./scripts/register.js"></script>
+</body>
+</html>

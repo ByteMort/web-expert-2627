@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/task.css">
+    <link rel="stylesheet" href="./css/user.css">
+    <script src="/axios/axios.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+            <a href="user_index.html">Users</a>
+            <a href="task_index.html">Tasks</a>
+            <a href="task-user.html">Assign Task</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Tasks</h2>
+        
+        <section class="card">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody">
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 All Rights Reserved.</p>
+    </footer>
+    <script src="./scripts/task_index.js"></script>
+</body>
+</html>
