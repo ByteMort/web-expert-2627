@@ -24,7 +24,8 @@ async function seed(){
 
         const users: IUser[] = [
             new User({username: "Bob", password: "bob123"}),
-            new User({username: "Alice", password: "alice123"})
+            new User({username: "Alice", password: "alice123"}),
+            new User({username: "Jack", password: "jack123"})
         ];
 
         const tasks: ITask[] = [

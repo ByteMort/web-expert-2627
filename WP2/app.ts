@@ -46,7 +46,9 @@ const startServer = async() => {
     }
 };
 
-startServer();
+if (!process.env.VITEST) {
+    startServer();
+}
 
 const shutdown = async () => {
     console.log("Shuting down...");
@@ -64,5 +66,7 @@ const shutdown = async () => {
     }
 }
 
-process.on('SIGINT', shutdown);
-process.on('SIGTERM', shutdown);
+if (!process.env.VITEST) {
+    process.on('SIGINT', shutdown);
+    process.on('SIGTERM', shutdown);
+}
