@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { connectDB, disconnectDB } from './config/db.js';
+import { connectDB, disconnectDB } from './configs/db.js';
 import User, { type IUser } from './models/user.model.js';
 
 type SeedUser = Pick<IUser, 'username' > & {password: string; role?: string};

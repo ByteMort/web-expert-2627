@@ -1,13 +1,21 @@
-import express, { type Request, type Response } from 'express';
+import express, { errorHandler, json, notFound, rest } from '@feathersjs/express';
+import { feathers } from '@feathersjs/feathers';
 import cookieParser from 'cookie-parser';
+import { services } from './services/index.js';
+import { formatErrors } from './util/format-errors.js';
 
-export const app = express();
+export const app = express.default(feathers());
 
-app.use(express.json());
+app.use(json());
 app.use(cookieParser());
+app.configure(rest());
+app.configure(services);
 
-// Routers
-app.get('/', (req: Request, res: Response)=>{
-    res.json({"message": "hello"});
+app.hooks({
+    error: {
+        all: [formatErrors]
+    }
 });
 
+app.use(notFound());
+app.use(errorHandler({html: false}));

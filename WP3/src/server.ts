@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { app } from './app.js';
 import type { Server } from 'node:http';
-import { connectDB, disconnectDB } from './config/db.js';
+import { connectDB, disconnectDB } from './configs/db.js';
 
 const PORT:number = Number(process.env.PORT) || 3000;
 
@@ -11,13 +11,8 @@ async function start() {
     try{
         await connectDB();
 
-        server = app.listen(PORT, (error) => {
-            if(error){
-                console.error(`The server could not be started: ${error}`);
-                process.exit(1);
-            }
-            console.log(`The server is listening to http://localhost:${PORT}`);
-        });
+        server = await app.listen(PORT);
+        console.log(`The server is listening to http://localhost:${PORT}`);
     }catch(error){
         console.error(`Starting error: ${error}`);
         process.exit(1);
