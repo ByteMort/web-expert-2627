@@ -32,11 +32,13 @@ const userSchema = new Schema<IUser>({
                 return /^[a-zA-Z0-9]+$/.test(value);
             },
             message: (props) => {
+                /* v8 ignore next 3 */
                 if(props.reason){
                     return props.reason.message;
                 }
                 return `${props.value} is not a valid username`;
-            }
+            },
+            type: 'invalidUsername'
         }
     },
     hashedPass: {
@@ -57,17 +59,17 @@ userSchema
     .virtual('password')
     .set(function(password: string){
         if(!password){
-            this.invalidate('password', "Password is required");
+            this.invalidate('password', "Password is required", password, 'required');
             return;
         }
 
         const trimmedPass = password.trim();
         if(trimmedPass.length < 6){
-            this.invalidate('password', "Password must be at least 6 characters");
+            this.invalidate('password', "Password must be at least 6 characters", password, 'minlength');
             return;
         }
         if(trimmedPass.length > 20){
-            this.invalidate('password', "Password must be shorter than 20 characters");
+            this.invalidate('password', "Password must be shorter than 20 characters", password, 'maxlength');
             return;
         }
 
