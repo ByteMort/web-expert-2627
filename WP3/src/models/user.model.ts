@@ -19,11 +19,11 @@ const userSchema = new Schema<IUser>({
     },
     username: {
         type: String,
-        required: [true, "Username is required."],
+        required: [true, "Username is required"],
         unique: true,
         trim: true,
-        minLength: [2, "Username should be at least {MINLENGTH} characters."],
-        maxLength: [15, "Username can't be more than {MAXLENGTH} characters."],
+        minLength: [2, "Username should be at least {MINLENGTH} characters"],
+        maxLength: [15, "Username can't be more than {MAXLENGTH} characters"],
         validate: {
             validator: (value: string) => {
                 if(value.toLowerCase().includes('admin')){
@@ -35,19 +35,19 @@ const userSchema = new Schema<IUser>({
                 if(props.reason){
                     return props.reason.message;
                 }
-                return `${props.value} is not a valid username.`;
+                return `${props.value} is not a valid username`;
             }
         }
     },
     hashedPass: {
         type: String,
-        required: [true, "Password is required."]
+        required: [true, "Password is required"]
     },
     role: {
         type: String,
         enum: {
             values: ['user', 'admin'],
-            message: "{VALUE} is not a valid role."
+            message: "{VALUE} is not a valid role"
         },
         default: 'user'
     },
@@ -57,17 +57,17 @@ userSchema
     .virtual('password')
     .set(function(password: string){
         if(!password){
-            this.invalidate('password', "Password is required.");
+            this.invalidate('password', "Password is required");
             return;
         }
 
         const trimmedPass = password.trim();
         if(trimmedPass.length < 6){
-            this.invalidate('password', "Password must be at least 6 characters.");
+            this.invalidate('password', "Password must be at least 6 characters");
             return;
         }
         if(trimmedPass.length > 20){
-            this.invalidate('password', "Password must be shorter than 20 characters.");
+            this.invalidate('password', "Password must be shorter than 20 characters");
             return;
         }
 
