@@ -1,6 +1,6 @@
-import { BadRequest, Conflict, FeathersError, GeneralError } from "@feathersjs/errors";
-import type { HookContext } from "@feathersjs/feathers";
-import mongoose from "mongoose";
+import { BadRequest, Conflict, FeathersError, GeneralError } from '@feathersjs/errors';
+import type { HookContext } from '@feathersjs/feathers';
+import mongoose from 'mongoose';
 
 type FieldError = { field: string; message: string };
 
@@ -15,7 +15,7 @@ export const formatErrors = async (context: HookContext) => {
 
     if(error instanceof BadRequest && Array.isArray(error.data)){
         const fields: FieldError[] = error.data.map((e: AjvError) => ({
-            field: 
+            field:
                 e.instancePath?.slice(1) ||
                 e.params?.missingProperty ||
                 e.params?.additionalProperty ||

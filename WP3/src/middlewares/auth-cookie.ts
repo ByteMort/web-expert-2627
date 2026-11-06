@@ -1,6 +1,6 @@
-import { NotAuthenticated } from "@feathersjs/errors";
-import type { HookContext, Params } from "@feathersjs/feathers";
-import type { Request, Response, NextFunction } from "express";
+import { NotAuthenticated } from '@feathersjs/errors';
+import type { HookContext, Params } from '@feathersjs/feathers';
+import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 export const setAuthCookie = (req: Request, res: Response, next: NextFunction) => {
@@ -21,7 +21,7 @@ export const parseAuthCookie = (req: Request, res: Response, next: NextFunction)
 }
 
 export const authenticate = async (context: HookContext) => {
-  const params = context.params as Params & { token?: string };
+  const params = context.params as Params & { token?: string; user?: { id: string; role: string } };
 
   const secret = process.env.JWT_SECRET;
   if (!secret) {
@@ -32,11 +32,17 @@ export const authenticate = async (context: HookContext) => {
     throw new NotAuthenticated("Not authenticated");
   }
 
+  let payload;
   try {
-    jwt.verify(params.token, secret);
+    payload = jwt.verify(params.token, secret);
   } catch {
     throw new NotAuthenticated("Invalid or expired token");
   }
+
+  if (typeof payload === 'string' || !payload.sub) {
+    throw new NotAuthenticated("Invalid token");
+  }
+  params.user = { id: payload.sub, role: payload.role };
 };
 
 const publicRoutes = [
