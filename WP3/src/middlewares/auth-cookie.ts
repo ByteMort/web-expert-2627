@@ -20,7 +20,6 @@ export const parseAuthCookie = (req: Request, res: Response, next: NextFunction)
   next();
 }
 
-
 export const authenticate = async (context: HookContext) => {
   const params = context.params as Params & { token?: string };
 
@@ -51,4 +50,13 @@ export const authenticateUnlessPublic = async (context: HookContext) => {
   if (isPublic) return;
 
   await authenticate(context);
+};
+
+export const clearAuthCookie = (req: Request, res: Response) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    sameSite: 'strict'
+  });
+
+  res.json({ message: 'Logout successful' });
 };
