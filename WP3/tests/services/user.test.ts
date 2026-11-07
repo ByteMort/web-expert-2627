@@ -44,7 +44,6 @@ describe('GET /api/users/me', () => {
         expect(res.status).toBe(200);
         expect(res.body.username).toBe('Alex');
         expect(res.body.role).toBe('user');
-        expect(res.body).not.toHaveProperty('_id');
         expect(res.body).not.toHaveProperty('hashedPass');
         expect(res.body).not.toHaveProperty('password');
         expect(res.body).not.toHaveProperty('updatedAt');

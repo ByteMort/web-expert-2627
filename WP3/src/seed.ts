@@ -13,7 +13,13 @@ async function seedData() {
 
         const users: SeedUser[] = [
             {username: "Ali", password: 'adminn', role: 'admin'},
-            {username: "Bob", password: "bob123"}
+            {username: "Bob", password: "bob123"},
+            {username: "Trainer1", password: "trainer", role: 'trainer'},
+            {username: "Trainer2", password: "trainer", role: 'trainer'},
+            {username: "Trainer3", password: "trainer", role: 'trainer'},
+            {username: "Trainer4", password: "trainer", role: 'trainer'},
+            {username: "Trainer5", password: "trainer", role: 'trainer'},
+            {username: "Trainer6", password: "trainer", role: 'trainer'},
         ];
 
         await User.insertMany(users);

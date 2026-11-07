@@ -12,7 +12,7 @@ const getValidationError = async (doc: mongoose.Document<string>) => {
   }
 };
 
-describe("User mode", () => {
+describe("User model", () => {
   describe('valid user', () => {
     it("passes validation with correct data", async () => {
       const user = new User({ username: 'test', password: 'test123' });

@@ -5,7 +5,6 @@ import { getValidator, Type, type Static } from '@feathersjs/typebox';
 import { dataValidator } from '../../util/validators.js';
 
 export const userExternalResolver = resolve<IUser, HookContext>({
-  _id: async () => undefined,
   hashedPass: async () => undefined,
   updatedAt: async () => undefined,
   createdAt: async () => undefined,

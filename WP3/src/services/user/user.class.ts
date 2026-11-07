@@ -8,7 +8,6 @@ type UserParams = Params & { user?: { id: string; role: string } };
 export class UserService{
   async find(params?: UserParams) {
     const users = await User.find().lean();
-
     return users;
   }
 
