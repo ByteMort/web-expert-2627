@@ -2,6 +2,7 @@ import { BadRequest, NotFound } from '@feathersjs/errors';
 import User, { type IUser } from '../../models/user.model.js';
 import Workout, { type IWorkout } from '../../models/workout.model.js';
 import type { CreateWorkout, PatchWorkout } from './workout.schema.js';
+import Enrollment from '../../models/enrollment.model.js';
 
 async function ensureTrainer(id: string) {
     const trainer: IUser | null = await User.findById(id);
@@ -43,6 +44,7 @@ export class WorkoutService{
         if(!deletedWorkout){
             throw new NotFound("There is no workout with this id");
         }
+        await Enrollment.deleteMany({ workout: id });
         return deletedWorkout;
     }
 
