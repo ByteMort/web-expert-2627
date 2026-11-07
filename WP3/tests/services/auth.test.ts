@@ -106,7 +106,7 @@ describe('POST /api/auth/logout', () => {
 
     await agent.post('/api/auth/logout');
 
-    const res = await agent.get('/api/users');
+    const res = await agent.get('/api/users/me');
     expect(res.status).toBe(401);
     expect(res.body.message).toBe("Not authenticated");
   });

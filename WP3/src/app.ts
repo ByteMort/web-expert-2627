@@ -3,7 +3,8 @@ import { feathers } from '@feathersjs/feathers';
 import cookieParser from 'cookie-parser';
 import { services } from './services/index.js';
 import { formatErrors } from './util/format-errors.js';
-import { authenticateUnlessPublic, parseAuthCookie } from './middlewares/auth-cookie.js';
+import { parseAuthCookie } from './middlewares/auth-cookie.js';
+import { authenticateUnlessPublic } from './hooks/authenticate.js';
 
 export const app = express.default(feathers());
 

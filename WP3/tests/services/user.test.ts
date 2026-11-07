@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 
 let mongo: MongoMemoryServer;
 let agent: ReturnType<typeof request.agent>;
+let adminAgent: ReturnType<typeof request.agent>;
 
 beforeAll(async () => {
     process.env.JWT_SECRET = 'test-secret';
@@ -18,11 +19,17 @@ beforeAll(async () => {
     await app.setup();
 
     await User.create({ username: 'Alex', password: 'alex123' });
+    await User.create({ username: 'Alice', password: 'alice123', role: 'admin' });
 
     agent = request.agent(app);
     await agent
         .post('/api/auth/login')
         .send({ username: 'Alex', password: 'alex123' });
+
+    adminAgent = request.agent(app);
+    await adminAgent
+        .post('/api/auth/login')
+        .send({ username: 'Alice', password: 'alice123' });
 }, 60_000);
 
 afterAll(async () => {
@@ -30,9 +37,9 @@ afterAll(async () => {
     await mongo?.stop();
 });
 
-describe('GET /api/users', () => {
+describe('GET /api/users/me', () => {
     it("returns username and role", async () => {
-        const res = await agent.get('/api/users');
+        const res = await agent.get('/api/users/me');
 
         expect(res.status).toBe(200);
         expect(res.body.username).toBe('Alex');
@@ -54,17 +61,56 @@ describe('GET /api/users', () => {
 
         await User.deleteOne({ username: 'Ghost' });
 
-        const res = await ghostAgent.get('/api/users');
+        const res = await ghostAgent.get('/api/users/me');
 
         expect(res.status).toBe(404);
         expect(res.body.message).toBe('User not found');
     });
+
+    it("return forbidden when there is invalid path", async () => {
+        const res = await agent.get('/api/users/test');
+
+        expect(res.status).toBe(403);
+        expect(res.body.message).toBe("This is forbidden path");
+    });
+});
+
+describe('Get /api/users', () => {
+    it("return users", async () => {
+        const res = await adminAgent.get('/api/users');
+
+        expect(res.status).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+        const usernames = res.body.map((u: { username: string }) => u.username);
+        expect(usernames).toEqual(expect.arrayContaining(['Alex', 'Alice']));
+    });
+
+    it("returns forbidden when user is not admin", async () => {
+        const res = await agent.get('/api/users');
+
+        expect(res.status).toBe(403);
+        expect(res.body.message).toBe("Admin access required");
+    })
+});
+
+describe('Post /api/users', () => {
+    it("adds user successfully", async () => {
+        const res = await request(app)
+            .post('/api/users')
+            .send({ username: 'Test', password: 'test123' });
+        
+        expect(res.status).toBe(201);
+        expect(res.body.username).toBe('Test');
+        expect(res.body.role).toBe('user');
+        expect(res.body).not.toHaveProperty('hashedPass');
+        expect(res.body).not.toHaveProperty('password');
+    });
 });
 
 const getMe = (token: string) =>
-    request(app).get('/api/users').set('Cookie', `token=${token}`);
+    request(app).get('/api/users/me').set('Cookie', `token=${token}`);
 
-describe('authentication on Get /api/users', () => {
+describe('authentication on Get /api/users/me', () => {
     it("rejects a malformed token", async () => {
         const res = await getMe('not-a-jwt');
         expect(res.status).toBe(401);

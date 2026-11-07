@@ -1,7 +1,7 @@
 import { getValidator, Type, type Static } from '@feathersjs/typebox';
 import { dataValidator } from '../../util/validators.js';
 
-export const loginDataSchema = Type.Object(
+const loginDataSchema = Type.Object(
     {
         username: Type.String({ minLength: 2, maxLength: 15 }),
         password: Type.String({ minLength: 6, maxLength: 20 })
