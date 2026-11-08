@@ -43,6 +43,11 @@ export const formatErrors = async (context: HookContext) => {
         return;
     }
 
+    if (error?.type === 'FeathersError' && !(error instanceof FeathersError)) {
+        context.error = new FeathersError(error.message, error.name, error.code, error.className, error.data);
+        return;
+    }
+
     if(!(error instanceof FeathersError)){
         console.error(error);
         context.error = new GeneralError('Something went wrong');

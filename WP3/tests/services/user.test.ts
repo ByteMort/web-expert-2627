@@ -88,7 +88,7 @@ describe('Get /api/users', () => {
         const res = await agent.get('/api/users');
 
         expect(res.status).toBe(403);
-        expect(res.body.message).toBe("Admin access required");
+        expect(res.body.message).toBe("You do not have the correct permissions.");
     })
 });
 
